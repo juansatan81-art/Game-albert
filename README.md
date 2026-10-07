@@ -56,3 +56,27 @@ Juego de acción en mundo abierto para tablet (y PC). Todo está en un único ar
 - Opción en pausa **«Mejoras: automáticas»**: elige sola la mejor carta y te lo muestra en un aviso lateral.
 - Cartas y anuncios más rápidos y pequeños; 1 s de protección al cerrar el menú de cartas.
 - Mejoras: los enemigos ya no se amontonan, flechas hacia cofres, altares y fuentes cercanas, recogida más rápida y menos números de daño cuando hay mucho jaleo.
+
+## Modo historia: 20 mundos (v5)
+
+### La historia
+La **Hoguera Primordial** encendía todas las estrellas. Un día el **Devorador** se la tragó y repartió sus pedazos por 20 mundos, cada uno vigilado por un fragmento suyo y cuatro guardianes. Solo una chispa escapó: **Chispa**.
+
+En cada mundo, Chispa derrota a los guardianes, rompe el sello y vence al fragmento del Devorador, recuperando una **llama**. Al cruzar la grieta hacia el siguiente mundo, el viaje la apaga casi del todo: por eso **empieza desde cero en cada mundo**. Mientras tanto, los fragmentos derrotados huyen y se juntan en el **Corazón del Vacío**, que crece mundo a mundo (se ve en las escenas de los mundos 5, 10 y 15).
+
+En el mundo 20, Chispa destruye el Corazón del Devorador, las 20 llamas vuelven a la Hoguera y las estrellas regresan. Pero en el último panel, en una galaxia lejana, **un nuevo ojo se abre**: queda abierto el Capítulo 2.
+
+### Mundos
+1 Valle Ascua · 2 Arrecife Abisal · 3 Desierto de Cristal · 4 Taiga Helada · 5 Jungla Neón · 6 Ciudad Reloj · 7 Islas Nube · 8 Caverna Fúngica · 9 Mar de Lava · 10 Jardín de Papel · 11 Tormenta Eterna · 12 Biblioteca Infinita · 13 Planeta Gominola · 14 Ruinas Lunares · 15 Bosque Sombra · 16 Dunas Nocturnas · 17 Nebulosa Rosa · 18 Fábrica Infinita · 19 Espejo Roto · 20 Corazón del Vacío.
+
+Cada mundo tiene sus colores, su mapa, sus decorados, sus 4 guardianes con nombre propio y un ataque especial, y su propio Devorador.
+
+### Enemigos nuevos (uno nuevo por mundo)
+Enjambre, Embestidor (carga en línea), Divisor (se parte en dos), Francotirador (láser de aviso y disparo rápido), Orbitador (te rodea), Sanador (cura a los demás), Parpadeo (se teletransporta), Torreta giratoria, Minero (deja minas), Congelador (te ralentiza), Saltarín (cae sobre ti), Fantasma (se vuelve invisible), Invocador y Excavador (sale bajo tus pies). Nuevos guardianes: Gólem e Hidra.
+
+### Progresión y equilibrio
+- Cada mundo es más difícil (vida y daño de enemigos, más élites, jefes más fuertes). Al principio de cada mundo hay un calentamiento suave.
+- Curación más escasa: fuentes 35 % cada 70 s, menos corazones, subir de nivel cura 4 %, guardianes curan 50 %.
+- Si caes, el mundo empieza de cero, pero las estrellas y mejoras permanentes se guardan.
+- 12 aspectos para Chispa que se desbloquean avanzando por los mundos y 3 logros nuevos.
+- Optimización: el mapa se dibuja por trozos en caché y la calidad baja sola si el dispositivo va lento.
