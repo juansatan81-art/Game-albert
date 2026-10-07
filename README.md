@@ -33,3 +33,12 @@ Juego de acción en mundo abierto para tablet (y PC). Todo está en un único ar
 - **5 personajes** desbloqueables: Chispa, Brasa, Escarcha, Brote y Trueno.
 - **Guardado automático** cada 8 s y al pausar o salir: en el menú aparece «Continuar».
 - **Modo infinito** después de ganar y opción para quitar la vibración.
+
+## Multijugador en el mismo dispositivo (v3)
+- En el menú elige **1, 2 o 3 jugadores**.
+- Cada jugador controla su personaje desde **su esquina**: J1 abajo a la izquierda, J2 arriba a la derecha (sentado enfrente, sus controles salen girados) y J3 abajo a la derecha.
+- Cada esquina tiene su joystick (toca cerca de tu esquina), su DASH, su SUPERNOVA y su barra de vida.
+- El equipo comparte nivel, cartas de mejora, estrellas y misiones. La cámara se aleja para que todos quepáis en pantalla.
+- Si alguien cae, quédate a su lado 2,5 s para **revivirle**. Las fuentes de vida curan y reviven a todo el equipo. La partida acaba si caéis todos.
+- Más jugadores = más enemigos y jefes con más vida.
+- En PC: J1 WASD + Espacio/E, J2 flechas + Enter/., J3 IJKL + U/O.
