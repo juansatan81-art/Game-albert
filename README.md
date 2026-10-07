@@ -21,3 +21,15 @@ Juego de acción en mundo abierto para tablet (y PC). Todo está en un único ar
 - Cofres con ruleta y opción de **JACKPOT** (3 mejoras a la vez).
 - Enemigos élite dorados, oleadas sorpresa y explosiones en cadena.
 - Las ★ que recoges se guardan para comprar mejoras permanentes en el menú.
+
+## Novedades (v2)
+- **Curación**: fuentes de vida en el mapa (+50% de vida, se recargan en 45 s), corazones que sueltan los enemigos, carta de Regeneración, curación en cada hito de combo y vida llena al vencer a un guardián.
+- **Altares de poder**: Furia (daño x2), Prisa (+50% velocidad y cadencia), Escudo (invulnerable) y Agujero Negro (atraes todo).
+- **Misiones**: siempre hay 3 activas; al cumplirlas ganas ★, un cofre gratis y un cambio de cartas.
+- **Duende Dorado**: aparece de vez en cuando y huye; cada golpe suelta monedas y si lo atrapas, lluvia de estrellas.
+- **Multikills** (¡TRIPLE!, ¡MASACRE!, ¡ANIQUILACIÓN!) con estrellas extra.
+- **Cartas**: botón 🎲 para cambiarlas y 10% de probabilidad de ELECCIÓN DOBLE.
+- **15 logros** permanentes que dan estrellas.
+- **5 personajes** desbloqueables: Chispa, Brasa, Escarcha, Brote y Trueno.
+- **Guardado automático** cada 8 s y al pausar o salir: en el menú aparece «Continuar».
+- **Modo infinito** después de ganar y opción para quitar la vibración.
