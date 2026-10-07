@@ -543,7 +543,7 @@ let enemies=[],bullets=[],ebullets=[],gems=[],coins=[],parts=[],texts=[],chests=
 let gameT=0,shake=0,hitstop=0,hitstopCd=0,slowmo=0,flash=0,hurtFlash=0,combo=0,comboT=0,comboPulse=0,maxCombo=0,kills=0,starsRun=0,gemChain=0,gemChainT=0,
   frenzy=0,vacuum=0,cores=0,sealBroken=false,pendingLv=0,pendingCore=0,pendingChest=null,curBiome=-1,biomeT=0,spawnT=0,fireT=0,mileIdx=0,waveT=60,winT=0,bossesDown=0,sealHintT=0,grazeTextT=0;
 let minis=[],mainBoss=null;
-let TM=null,bodies=[],camZ=1,safeT=0,autoT=0;
+let TM=null,bodies=[],camZ=1,safeT=0,autoT=0,comboId=0,lvPicked=0;
 const COOP_COL=[null,['#8fd8ff','#1f7fff'],['#b8ff8a','#22a84a']];
 const CORNER_OF={1:['bl'],2:['bl','tr'],3:['bl','tr','br']};
 function withBody(b,fn){const s=P;P=b;try{return fn()}finally{P=s}}
@@ -597,10 +597,10 @@ function makeFountains(){const f=[];for(let i=0;i<12;i++){const a=i*TAU/12+.26,R
 function spawnAltar(initial){for(let k=0;k<30;k++){const x=rnd(300,WORLD-300),y=rnd(300,WORLD-300);if(dist(x,y,CX,CY)<SANCT+250)continue;if(!initial&&P&&dist(x,y,P.x,P.y)<1000)continue;
   const ks=Object.keys(PW);altars.push({x,y,t:rnd(0,6),k:ks[Math.random()*ks.length|0]});return}}
 function newQuest(){const act=new Set(quests.map(q=>q.k));const pool=QT.filter(q=>!act.has(q.k));const t=pool[Math.random()*pool.length|0];const tier=Math.min(2,Math.floor(questsDone/4));
-  const n=t.n[tier];quests.push({k:t.k,txt:t.t(n),n,base:t.abs?0:S[t.k],rw:t.rw*(1+tier),abs:!!t.abs,done:0,doneT:0})}
-const qProg=q=>q.abs?combo:S[q.k]-q.base;
+  const n=t.n[tier];quests.push({k:t.k,txt:t.t(n),n,base:t.abs?combo:S[t.k],cid:comboId,rw:t.rw*(1+tier),abs:!!t.abs,done:0,doneT:0})}
+const qProg=q=>q.abs?(q.cid===comboId?combo-q.base:combo):S[q.k]-q.base;
 function checkQuests(){
-  for(const q of quests){if(q.done){q.doneT-=.25;continue}if(qProg(q)>=q.n){q.done=1;q.doneT=1.5;questsDone++;starsRun+=q.rw;P.rerolls++;pendingFreeChest++;SFX.chest();buzz(25);
+  for(const q of quests){if(q.done){q.doneT-=.25;continue}if(qProg(q)>=q.n){q.done=1;q.doneT=1.5;questsDone++;starsRun+=q.rw;TM.rerolls++;pendingFreeChest=Math.min(2,pendingFreeChest+1);SFX.chest();buzz(25);
     toast(`✔ Misión cumplida · +${q.rw} ★ y cofre gratis`);ring(P.x,P.y,260,'#7dff9a',14,.5)}}
   quests=quests.filter(q=>!q.done||q.doneT>0);while(quests.length<3)newQuest()}
 let achQ=[],achBusy=false;
@@ -617,7 +617,7 @@ function saveRun(){
   if(!P||!(state==='play'||state==='pause'||state==='level'||state==='chest')||winT>0)return;
   const p={};for(const k of Object.keys(P))if(!['trail','dashHit','pad','joy'].includes(k))p[k]=P[k];
   const d={p,gameT,kills,starsRun,starsBanked,maxCombo,cores,sealBroken,endless,endlessT,bossesDown,questsDone,S,quests,
-    pendingLv:pendingLv+(state==='level'&&!lvCore?1:0),pendingCore:pendingCore+(state==='level'&&lvCore?1:0),
+    pendingLv:pendingLv+(state==='level'&&!lvCore&&!lvPicked?1:0),pendingCore:pendingCore+(state==='level'&&lvCore&&!lvPicked?1:0),
     minis:minis.map(m=>m.dead?1:0),mainDead:mainBoss.dead?1:0,items:items.map(i=>[i.x|0,i.y|0,i.col]),chests:chests.map(c=>[c.x|0,c.y|0]),
     altars:altars.map(a=>[a.x|0,a.y|0,a.k]),fount:fountains.map(f=>Math.max(0,Math.ceil(f.cd))),
     coop:bodies.length,bodies:bodies.slice(1).map(b=>({x:b.x|0,y:b.y|0,hp:b.hp,ult:b.ult,down:b.down,rev:0}))};
@@ -792,7 +792,7 @@ function updPlayer(dt){
   P.x=clamp(P.x,40,WORLD-40);P.y=clamp(P.y,40,WORLD-40);
   if(!sealBroken){const d=dist(P.x,P.y,CX,CY);if(d<SANCT+P.r){const a=Math.atan2(P.y-CY,P.x-CX);P.x=CX+Math.cos(a)*(SANCT+P.r);P.y=CY+Math.sin(a)*(SANCT+P.r);
     if(sealHintT<=0){sealHintT=3;toast(`El sello resiste: necesitas 4 núcleos (${cores}/4)`)}}}
-  sealHintT-=dt;P.dashCd-=dt;P.inv-=dt;S.dist+=Math.hypot(P.x-ox,P.y-oy)/10;
+  sealHintT-=dt;P.dashCd-=dt;P.inv-=dt;S.dist+=Math.hypot(P.x-ox,P.y-oy)/10/bodies.length;
   if(P.regen>0)heal(P.regen*dt);
   P.trail.push({x:P.x,y:P.y});if(P.trail.length>14)P.trail.shift();
   P.fireT-=dt;if(P.fireT<=0){const t=nearestTarget(P.x,P.y,560);if(t){P.fireT=1/(P.rate*(frenzy>0?2:1)*(P.pw.prisa>0?1.5:1));shoot(t)}else P.fireT=0}
@@ -863,7 +863,7 @@ function update(dt,rdt){
   for(const t of texts){t.t+=rdt;t.y+=t.vy*rdt;t.vy*=.95}
   texts=texts.filter(t=>t.t<t.m);
   // combo
-  comboT-=dt;if(comboT<=0&&combo>0){if(combo>=15)toast(`Combo de ${combo} terminado`);combo=0;mileIdx=0}
+  comboT-=dt;if(comboT<=0&&combo>0){if(combo>=15)toast(`Combo de ${combo} terminado`);combo=0;mileIdx=0;comboId++}
   gemChainT-=dt;if(gemChainT<=0)gemChain=0;
   mkT-=dt;if(mkT<=0&&mk>0){multiKill(mk);mk=0}
   if(endless)endlessT+=dt;
@@ -907,7 +907,7 @@ function updEnemy(e,dt){
   else if(e.type==='goblin'){const w=Math.sin(e.t*3+e.ph);mx=-ux-uy*w*.8;my=-uy+ux*w*.8;if(d>650){mx=ux*.3;my=uy*.3}e.life-=dt;
     if(Math.random()<dt*6)part(e.x,e.y,0,-30,.5,'#ffd23f',4,.95);if(e.life<=0){e.dead=true;burst(e.x,e.y,'#ffd23f',25,300,5);toast('El duende escapó… ¡la próxima vez!');return}}
   else if(e.type==='bomber'){if(e.fuse>0){s=0;e.fuse-=dt;if(e.fuse<=0){explodeEnemy(e);return}}else if(d<85)e.fuse=.6}
-  const k=Math.min(1,dt*5);e.vx+=(mx*s-e.vx)*k;e.vy+=(my*s-e.vy)*k;e.x+=e.vx*dt;e.y+=e.vy*dt;
+  const k=Math.min(1,dt*5);e.vx+=(mx*s-e.vx)*k;e.vy+=(my*s-e.vy)*k;e.x=clamp(e.x+e.vx*dt,30,WORLD-30);e.y=clamp(e.y+e.vy*dt,30,WORLD-30);
   const cd=dist(e.x,e.y,CX,CY);if(!sealBroken&&cd<SANCT+e.r){const a=Math.atan2(e.y-CY,e.x-CX);e.x=CX+Math.cos(a)*(SANCT+e.r);e.y=CY+Math.sin(a)*(SANCT+e.r)}
   if(e.dmg>0&&d<e.r+P.r*.85)hurt(e.dmg);
   if(d>2300)e.dead=true;
@@ -1147,7 +1147,7 @@ function rollRarity(minR=0,xl=0){const l=P.luck+xl,ws=[60-l*60,27+l*30,10+l*40,3
 function rollUpgrades(n,minR,xl){const pool=UPG.filter(u=>!u.ok||u.ok());const out=[];while(out.length<n&&pool.length){const u=pool.splice(Math.random()*pool.length|0,1)[0];out.push({u,r:rollRarity(minR,xl)})}return out}
 function applyUp(o){const m=RAR[o.r].m;o.u.a(m);if(o.u.id==='hp')for(const b of bodies)if(!b.down)b.hp=TM.maxhp;P.taken[o.u.id]=(P.taken[o.u.id]||0)+1;if(o.r===3){unlock('leg');SFX.legend();burst(P.x,P.y,'#ffc94a',50,500,6);ring(P.x,P.y,400,'#ffc94a',20,.6)}}
 function openLevel(core){
-  state='level';resetJoys();lvCore=core;picksLeft=(!core&&Math.random()<.1)?2:1;
+  state='level';resetJoys();lvCore=core;lvPicked=0;picksLeft=(!core&&Math.random()<.1)?2:1;
   if(!core)pendingLv--;
   $('lvlTitle').textContent=core?'¡NÚCLEO OBTENIDO!':picksLeft>1?'¡ELECCIÓN DOBLE!':`¡MEJORA DE NIVEL!`;
   $('lvlSub').textContent=core?'Elige una mejora épica o legendaria':picksLeft>1?'¡Te llevas 2 mejoras!':'Elige una mejora';
@@ -1158,7 +1158,7 @@ function dealCards(){
   const opts=rollUpgrades(3,lvCore?2:0,lvCore?.3:0);const box=$('cards');box.innerHTML='';
   opts.forEach((o,i)=>{const R=RAR[o.r],b=document.createElement('button');b.className=`card r${o.r} locked`;b.style.setProperty('--rc',R.c);b.style.animationDelay=(i*.06)+'s';
     const lv=(P.taken[o.u.id]||0)+1;b.innerHTML=`<span class="rar">${R.n}</span><span class="ic">${o.u.ic}</span><b>${o.u.n}</b><span class="ds">${o.u.d(R.m)}</span><span class="lv">${lv>1?'NIVEL '+lv:'¡NUEVO!'}</span>`;
-    b.addEventListener('click',()=>{if(state!=='level'||b.classList.contains('picked'))return;applyUp(o);picksLeft--;
+    b.addEventListener('click',()=>{if(state!=='level'||b.classList.contains('picked'))return;applyUp(o);picksLeft--;lvPicked++;
       if(picksLeft>0){b.classList.add('picked','locked');b.style.opacity='.3';$('lvlSub').textContent='¡Elige otra!';SFX.tick();return}
       closeLevel()});box.appendChild(b);
     setTimeout(()=>{if(o.r>=2)tone(o.r===3?1568:1175,.15,'triangle',.05);else SFX.tick()},i*60+80)});
@@ -1166,7 +1166,7 @@ function dealCards(){
   const rb=$('rerollBtn');rb.textContent=`🎲 Cambiar cartas (${P.rerolls})`;rb.disabled=P.rerolls<=0;rb.style.opacity=P.rerolls>0?1:.4;
 }
 function closeLevel(){show('lvlModal',false);state='play';last=performance.now();safeT=0;for(const b of bodies)b.inv=Math.max(b.inv,1)}
-$('laterBtn').addEventListener('click',()=>{if(state!=='level')return;if(lvCore)pendingCore++;else pendingLv++;SFX.tick();closeLevel()});
+$('laterBtn').addEventListener('click',()=>{if(state!=='level')return;if(!lvPicked){if(lvCore)pendingCore++;else pendingLv++}SFX.tick();closeLevel()});
 $('rerollBtn').addEventListener('click',()=>{if(state!=='level'||P.rerolls<=0)return;P.rerolls--;SFX.chest();dealCards()});
 function feedItem(ic,title,sub,col,ms=2600){const box=$('feed');while(box.children.length>=4)box.firstChild.remove();
   const d=document.createElement('div');d.className='fi';d.style.setProperty('--fc',col);d.innerHTML='<span class="ic"></span><div><b></b><small></small></div>';
