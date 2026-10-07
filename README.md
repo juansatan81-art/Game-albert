@@ -49,3 +49,10 @@ Juego de acción en mundo abierto para tablet (y PC). Todo está en un único ar
 - La app va a pantalla completa, en horizontal (gira sola si das la vuelta a la tablet), no se apaga la pantalla y funciona sin internet.
 - El botón Atrás pausa la partida; al salir de la app la partida se guarda.
 - Código de la app: carpeta `android/` (WebView + `build.sh`, sin Gradle). La clave de firma `android/chispa.keystore` está en el repositorio para que las actualizaciones se instalen encima sin perder partidas.
+
+## Recompensas sin interrupciones (v4)
+- Los **cofres** se abren en segundo plano: una tarjeta con ruleta aparece a la derecha y la partida sigue.
+- Las **subidas de nivel** se guardan: aparece el botón «⬆ MEJORA ×N» y el menú de cartas solo se abre solo cuando no hay enemigos cerca (ni jefe). Puedes tocar el botón cuando quieras o «Elegir luego».
+- Opción en pausa **«Mejoras: automáticas»**: elige sola la mejor carta y te lo muestra en un aviso lateral.
+- Cartas y anuncios más rápidos y pequeños; 1 s de protección al cerrar el menú de cartas.
+- Mejoras: los enemigos ya no se amontonan, flechas hacia cofres, altares y fuentes cercanas, recogida más rápida y menos números de daño cuando hay mucho jaleo.
