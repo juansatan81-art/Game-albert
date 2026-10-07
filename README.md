@@ -42,3 +42,10 @@ Juego de acción en mundo abierto para tablet (y PC). Todo está en un único ar
 - Si alguien cae, quédate a su lado 2,5 s para **revivirle**. Las fuentes de vida curan y reviven a todo el equipo. La partida acaba si caéis todos.
 - Más jugadores = más enemigos y jefes con más vida.
 - En PC: J1 WASD + Espacio/E, J2 flechas + Enter/., J3 IJKL + U/O.
+
+## App para Android (APK)
+- Cada vez que cambia el juego, GitHub construye `ChispaSalvaje.apk` automáticamente y lo publica en **Releases** del repositorio.
+- Instalación: descarga el APK desde la tablet, ábrelo y permite «instalar apps desconocidas» para el navegador o el gestor de archivos.
+- La app va a pantalla completa, en horizontal (gira sola si das la vuelta a la tablet), no se apaga la pantalla y funciona sin internet.
+- El botón Atrás pausa la partida; al salir de la app la partida se guarda.
+- Código de la app: carpeta `android/` (WebView + `build.sh`, sin Gradle). La clave de firma `android/chispa.keystore` está en el repositorio para que las actualizaciones se instalen encima sin perder partidas.

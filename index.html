@@ -1216,6 +1216,10 @@ $('achBtn').addEventListener('click',()=>{audioInit();const n=Object.keys(save.a
   $('achList').innerHTML=ACH.map(a=>`<div class="al${save.ach[a.id]?' ok':''}"><span class="t">🏆</span><div><b>${a.n}</b><small>${a.d}</small></div><em>+${a.rw} ★</em></div>`).join('');show('title',false);show('achModal',true)});
 $('achClose').addEventListener('click',()=>{show('achModal',false);show('title',true)});
 addEventListener('pagehide',saveRun);
+// Botón Atrás y cambio de app en la versión Android
+window.__chispaBack=()=>{if(state==='play'){openPause();return true}if(state==='pause'){closePause();return true}
+  if(!$('achModal').hidden){show('achModal',false);show('title',true);return true}if(state==='level'||state==='chest')return true;if(state==='over'){toTitle();return true}return false};
+window.__chispaPause=()=>{if(state==='play')openPause();saveRun()};
 $('muteBtn').addEventListener('click',e=>{muted=!muted;e.currentTarget.textContent='Sonido: '+(muted?'no':'sí')});
 const press=(id,fn)=>$(id).addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();audioInit();fn()});
 press('dashBtn',dash);press('ultBtn',()=>nova(false));
