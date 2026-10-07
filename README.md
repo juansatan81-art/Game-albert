@@ -80,3 +80,18 @@ Enjambre, Embestidor (carga en línea), Divisor (se parte en dos), Francotirador
 - Si caes, el mundo empieza de cero, pero las estrellas y mejoras permanentes se guardan.
 - 12 aspectos para Chispa que se desbloquean avanzando por los mundos y 3 logros nuevos.
 - Optimización: el mapa se dibuja por trozos en caché y la calidad baja sola si el dispositivo va lento.
+
+## Habilidades por era y aprendizaje (v6)
+Cada 5 mundos Chispa cambia su forma de atacar. La habilidad **solo funciona en sus mundos**:
+
+| Mundos | Habilidad | Cómo se juega |
+|---|---|---|
+| 1–5 | ✨ Disparo Estelar | Disparas solo al enemigo más cercano. |
+| 6–10 | ☄️ Cometa | No disparas: solo dañas **atravesando** enemigos con DASH, que se recarga muy rápido. |
+| 11–15 | ➰ Lazo Estelar | Dejas una estela de luz: cierra un lazo alrededor de los enemigos y explotan. |
+| 16–20 | 💫 Pulso | Lanzas ondas de choque automáticas a tu alrededor: tienes que acercarte. |
+
+- Al empezar cada era aparece una tarjeta con una **demostración animada** de la habilidad.
+- Después, un **aprendizaje guiado** (abajo en el centro) con pasos y barra de progreso; al completarlo ganas 30 ★. Se puede repetir desde la pausa.
+- En el cómic de viaje, al cambiar de era aparece una viñeta extra con Chispa transformándose.
+- Las cartas de cadencia y multidisparo cambian de efecto según la era; atravesar y rebote solo salen en la era del Disparo.
